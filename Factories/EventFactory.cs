@@ -122,6 +122,8 @@ namespace ExcitedEmu.Factories {
             using (IDbConnection dbConnection = Connection){
                 string query = $"DELETE FROM participants WHERE events_idevents = '{EventID}'";
                 dbConnection.Execute(query);
+                query = $"DELETE FROM activities WHERE events_idevents = '{EventID}'";
+                dbConnection.Execute(query);
                 query = $"DELETE FROM events WHERE idevents = '{EventID}'";
                 dbConnection.Execute(query);
             }
