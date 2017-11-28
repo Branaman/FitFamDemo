@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "New Activity";
+}
+<div>
+    @{
+        foreach(var error in ViewBag.errors)
+        {
+            if(@error.Errors.Count > 0)
+            {
+                <p>@error.Errors[0].ErrorMessage</p>
+            }
+        }
+    }
+</div>
+<h1>Create an Activity!</h1>
+<form action="/addActivity" method="post">
+    <label for="Activityname">Title:</label>
+    <input type="text" name="title" id="title" value="" required>
+    <label for="dateInput">Date:</label>
+    <input type="date" name="date" id="dateInput" value="" required>
+    <label for="Activitydescription">Description:</label>
+    <input type="text" name="description" id="Activitydescription" value="" required>
+    <label for="ActivityProgress">Progress:</label>
+    <input type="number" name="progress" id="ActivityProgress" value="" required>
+    <input type="hidden" name="users_idusers" value="@ViewBag.userID">
+    <input type="hidden" name="events_idevents" value="@ViewBag.EventID">
+    <input type="submit" value="Create Activity">
+</form>

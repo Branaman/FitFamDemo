@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Home";
+}
+<div>
+    @{
+        foreach(var error in ViewBag.errors)
+        {
+            if(@error.Errors.Count > 0)
+            {
+                <p>@error.Errors[0].ErrorMessage</p>
+            }
+        }
+    }
+</div>
+<h1>All Events</h1>
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Date and Time</th>
+        <th>Duration</th>
+        <th>Event Coordinator</th>
+        <th>Number of Participants</th>
+        <th>Your Progress</th>
+        <th>Actions</th>
+    </tr>
+    @foreach(var Event in @ViewBag.AllEvents)
+    {   
+        var skip = false;
+        <tr>
+        <td><a href="/Event/@Event.idevents">@Event.title</a></td>
+        <td>@Event.date.ToString("MM/dd @ HH:mm")</td>
+        <td>@Event.duration</td>
+        <td>@Event.coordinator</td>
+        <td>@Event.participants</td>
+        @foreach(var Joined in @ViewBag.JoinedEvents)
+        {
+            @if(Event.idevents == Joined.idevents)
+            {
+                <td>@Joined.progress / @Event.goal</td>
+                <td><form action="/newActivity/@Event.idevents/@ViewBag.userID" method="GET"><input type="submit" value="Add Activity"></form></td>
+                <td><form action="/leaveEvent/@Event.idevents/@ViewBag.userID" method="POST"><input type="submit" value="Leave"></form></td>
+            skip = true;
+            }
+        }
+        @if (!skip)
+        {
+            <td><form action="/joinEvent/@Event.idevents/@ViewBag.userID" method="POST"><input type="submit" value="Join"></form></td>
+        }
+        @if (Event.coordinatorID == @ViewBag.userID)
+        {
+            <td><form action="/deleteEvent/@Event.idevents/@ViewBag.userID" method="POST"><input type="submit" value="Delete"></form></td>
+        }
+        </tr>
+    }
+</table>
+<a href="/New">Add New Event!</a>

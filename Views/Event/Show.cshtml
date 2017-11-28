@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "@ViewBag.Event.title";
+}
+<div>
+    @{
+        foreach(var error in ViewBag.errors)
+        {
+            if(@error.Errors.Count > 0)
+            {
+                <p>@error.Errors[0].ErrorMessage</p>
+            }
+        }
+    }
+</div>
+<h1>@ViewBag.Event.title</h1>
+<h2>Event Coordinator: @ViewBag.Event.coordinator</h2>
+<h2>Description</h2>
+<p>@ViewBag.Event.description</p>
+<h2>Goal</h2>
+<p>@ViewBag.Event.goal</p>
+<h2>Participants</h2>
+<ul>
+    @{
+        foreach(var participant in @ViewBag.Participants)
+        {
+            <li>@participant.name</li>
+        }
+    }
+</ul>
+<h2>Activities</h2>
+<ul>
+    @{
+        foreach(var activity in @ViewBag.activities)
+        {
+            <li>@activity.participant made @activity.progress progress doing @activity.title!</li>
+        }
+    }
+</ul>
